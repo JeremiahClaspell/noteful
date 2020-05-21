@@ -1,26 +1,36 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Header from './Header/Header'; 
+import { Route, Switch } from 'react-router-dom'; 
+import Store from './Store'; 
+import Main from './Main/Main'; 
+import Folder from './Folder/Folder'; 
+import Note from './Note/Note'; 
+import PageNotFound from './PageNotFound/PageNotFound'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+
+  constructor(props){
+    super(props); 
+    this.state= {
+      store: Store, 
+      folder: ''
+    } 
+  }
+
+  render(){
+    return (
+      <div className="App">
+        <Header/>
+        <Switch>
+          <Route exact path="/" render={(props)=>{return <Main {...this.state.store} rProps={props}/>}}/>
+          <Route path="/folder/:id" render={(props)=>{return <Folder {...this.state} rProps={props}/>}}/>
+          <Route path="/note/:id" render={(props)=>{return <Note {...this.state} rProps={props}/>}}/>
+          <Route component={PageNotFound}/>
+        </Switch>
+      </div>
+    );
+  }
 }
 
 export default App;
